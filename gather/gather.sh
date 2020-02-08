@@ -23,7 +23,7 @@ if [ `id -u` -eq 0 ] ; then
       ;;
     disks-all)
       hdds=($(lsblk -dn -o NAME));
-      for hdd in ${!hdds[@]}; do hdparm -I "/dev/${hdds[$hdd]}" | less; done
+      for hdd in ${!hdds[@]}; do { hdparm -I "/dev/${hdds[$hdd]}" & smartctl -A "/dev/${hdds[$hdd]}"; } | less; done
       ;;
     dmi)
       echo -e "\e[33mVendor:\e[0m `dmidecode -s system-manufacturer`"
